@@ -6,4 +6,4 @@ Trabalho de conclusão de curso sobre NLP
  
 #### hm
 
-############### kk
+###### d
