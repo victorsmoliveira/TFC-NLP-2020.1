@@ -1,7 +1,11 @@
 # TFC-NLP-2020.1
 Trabalho de conclusão de curso sobre NLP
 
+<<<<<<< HEAD
 Autores: Victor De Simone Oliveira, Paloma Castrioto Ribeiro \\
+=======
+Autores: Victor De Simone Oliveira, Paloma Castrioto Ribeiro
+>>>>>>> master
 Ano: 2020
 
 ## Visão Geral
