@@ -24,13 +24,4 @@ Foram criados dois códigos:
 - Código TCC v7
 - Código TCC Automático v2
 
-O primeiro 
-
-
-
-
-
-### Código TCC v7
-
-
-### f
+O primeiro é o código completo, e o segundo é uma automação do primeiro.
