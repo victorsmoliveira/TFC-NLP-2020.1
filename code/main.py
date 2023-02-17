@@ -1,54 +1,54 @@
 # %%imports & func
-import pandas as pd
-import re
-import spacy
-import numpy as np   
 import os
+import re
 
+import numpy as np
+import pandas as pd
+import spacy
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, hamming_loss
 from sklearn.model_selection import KFold
 from skmultilearn.problem_transform import BinaryRelevance, LabelPowerset
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import hamming_loss, accuracy_score
+
 
 def clean_text(msg):
-    msg = re.sub('[^a-zA-Z]', ' ', msg)
+    msg = re.sub("[^a-zA-Z]", " ", msg)
     msg.lower()
     return msg
+
 
 def lemmatization(msg):
     msg = clean_text(msg)
     doc = nlp(msg)
     tokenlist = [token.lemma_ for token in doc if token not in nlp.Defaults.stop_words]
-    msg = ' '.join(tokenlist)
+    msg = " ".join(tokenlist)
     return msg
 
-nlp = spacy.load('en_core_web_sm')
+
+nlp = spacy.load("en_core_web_sm")
 # %%Importing parameters & loading dataset
+df_param = pd.read_csv(os.path.join("data", "params.csv"), delimiter=";")
 
-script_path = os.path.dirname(__file__)
-
-df_param = pd.read_csv(os.path.join(script_path, 'Parametros.csv'), delimiter = ';')
-
-dataset = pd.read_excel(os.path.join(script_path, 'Datasets\Dataset OneHot.xlsx'))
+dataset = pd.read_excel(os.path.join("data", "dataset_onehot.xlsx"))
 labels_dataframe = dataset.iloc[:, 1:]
 
-corpus = [lemmatization(msg) for msg in list(dataset['msgContent'])]
+corpus = [lemmatization(msg) for msg in list(dataset["msgContent"])]
 
 # %%main
 y = labels_dataframe.values
-lines,_ = df_param.shape
+lines, _ = df_param.shape
 
 m_acc_array = []
 m_hamm_loss_array = []
 indexes = np.array([i for i in range(lines)])
 
 for i in indexes:
-    method = eval(df_param.iloc[i,2])
-    max_ft = df_param.iloc[i,3]
-    classifier = eval(df_param.iloc[i,4])
-    max_iterations = df_param.iloc[i,5]
-    k = df_param.iloc[i,6]
+    method = eval(df_param.iloc[i, 2])
+    max_ft = df_param.iloc[i, 3]
+    classifier = eval(df_param.iloc[i, 4])
+    max_iterations = df_param.iloc[i, 5]
+    k = df_param.iloc[i, 6]
 
     cv = CountVectorizer(max_features=max_ft)
     X = cv.fit_transform(corpus)
@@ -59,8 +59,12 @@ for i in indexes:
     kf = KFold(n_splits=k)
 
     for train_index, test_index in kf.split(X):
-        X_train, X_test, y_train, y_test = X[train_index], X[test_index], y[train_index], \
-            y[test_index]
+        X_train, X_test, y_train, y_test = (
+            X[train_index],
+            X[test_index],
+            y[train_index],
+            y[test_index],
+        )
 
         cf = method(classifier(max_iter=max_iterations, random_state=42))
         cf.fit(X_train, y_train)
@@ -75,8 +79,14 @@ for i in indexes:
     m_acc_array.append(acc)
     m_hamm_loss_array.append(hamm_loss)
 
-df_excel = pd.DataFrame({'Test':indexes+1,'Accuracy':m_acc_array,'Hamming Loss':
-                         m_hamm_loss_array})
-    
-df_excel.to_excel(os.path.join(script_path, 'Resultados.xlsx'), index=False)
+srs_indexes = pd.Series(indexes + 1, name="Test")
+df_results = pd.DataFrame({"Accuracy": m_acc_array, "Hamming Loss": m_hamm_loss_array})
 
+df_complete = pd.concat([srs_indexes, df_param, df_results], axis=1)
+
+df_complete.to_excel(
+    os.path.join("resultados.xlsx"),
+    index=False,
+    freeze_panes=(1, 0),
+    float_format="%.6f",
+)
