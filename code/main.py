@@ -1,4 +1,4 @@
-# %%imports & func
+# %% Imports and functions
 import os
 import re
 from warnings import simplefilter
@@ -12,6 +12,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, hamming_loss
 from sklearn.model_selection import KFold
 from skmultilearn.problem_transform import BinaryRelevance, LabelPowerset
+from tqdm import tqdm
 
 
 def clean_text(msg):
@@ -30,16 +31,23 @@ def lemmatization(msg):
 
 # %% Prep
 simplefilter("ignore", category=ConvergenceWarning)
+
+print("\n--------- STARTING SCRIPT ---------\n")
+print("📥 Loading Spacy dictionary...")
 nlp = spacy.load("en_core_web_sm")
-# %%Importing parameters & loading dataset
+
+# %% Importing parameters & loading dataset
+print("📖 Reading parameters csv...")
 df_param = pd.read_csv(os.path.join("data", "params.csv"), delimiter=";")
 
+print("📖 Reading dataset...")
 dataset = pd.read_excel(os.path.join("data", "dataset_onehot.xlsx"))
 labels_dataframe = dataset.iloc[:, 1:]
 
+print("🔨 Lemmatizating messages...")
 corpus = [lemmatization(msg) for msg in list(dataset["msgContent"])]
 
-# %%main
+# %% main
 y = labels_dataframe.values
 lines, _ = df_param.shape
 
@@ -47,7 +55,8 @@ m_acc_array = []
 m_hamm_loss_array = []
 indexes = np.array([i for i in range(lines)])
 
-for i in indexes:
+print("\nStarting main loop:\n")
+for i in tqdm(indexes, desc="⌛ General progress", colour="#84e175"):
     method = eval(df_param.iloc[i, 2])
     max_ft = df_param.iloc[i, 3]
     classifier = eval(df_param.iloc[i, 4])
@@ -62,7 +71,13 @@ for i in indexes:
 
     kf = KFold(n_splits=k)
 
-    for train_index, test_index in kf.split(X):
+    for train_index, test_index in tqdm(
+        kf.split(X),
+        desc="   💪 KFold training for parameter set " + str(i + 1),
+        total=k,
+        leave=False,
+        colour="#35edfe",
+    ):
         X_train, X_test, y_train, y_test = (
             X[train_index],
             X[test_index],
@@ -88,9 +103,6 @@ df_results = pd.DataFrame({"Accuracy": m_acc_array, "Hamming Loss": m_hamm_loss_
 
 df_complete = pd.concat([srs_indexes, df_param, df_results], axis=1)
 
-df_complete.to_excel(
-    os.path.join("resultados.xlsx"),
-    index=False,
-    freeze_panes=(1, 0),
-    float_format="%.6f",
-)
+output_excel_filename = "resultados.xlsx"
+df_complete.to_excel(output_excel_filename, index=False, freeze_panes=(1, 0))
+print(f"\n📝 Results successfully exported to {output_excel_filename}.")
