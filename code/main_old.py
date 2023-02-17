@@ -1,3 +1,5 @@
+###### ESSE SCRIPT ESTA OBSOLETO, CONTINUA AQUI PARA REGISTRAR AS TENTATIVAS DE DIVERSAS TECNICAS ######
+
 # %%imports & func
 import os
 import pandas as pd
