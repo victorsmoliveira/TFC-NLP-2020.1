@@ -56,7 +56,7 @@ m_hamm_loss_array = []
 indexes = np.array([i for i in range(lines)])
 
 print("\nStarting main loop:\n")
-for i in tqdm(indexes, desc="⌛ General progress", colour="#84e175"):
+for i in tqdm(indexes, desc="⏳️ General progress", colour="#84e175"):
     method = eval(df_param.iloc[i, 2])
     max_ft = df_param.iloc[i, 3]
     classifier = eval(df_param.iloc[i, 4])
@@ -73,7 +73,7 @@ for i in tqdm(indexes, desc="⌛ General progress", colour="#84e175"):
 
     for train_index, test_index in tqdm(
         kf.split(X),
-        desc="   💪 KFold training for parameter set " + str(i + 1),
+        desc="   💪 KFold training for parameter set #" + str(i + 1),
         total=k,
         leave=False,
         colour="#35edfe",
