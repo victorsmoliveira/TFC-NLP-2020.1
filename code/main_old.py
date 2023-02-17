@@ -1,5 +1,8 @@
 ###### ESSE SCRIPT ESTA OBSOLETO, CONTINUA AQUI PARA REGISTRAR AS TENTATIVAS DE DIVERSAS TECNICAS ######
 
+###### ESSE SCRIPT TAMBEM CONTEM O CODIGO PARA GERAR AS IMAGENS #######
+#TODO: Integrar codigo que gera as imagens ao script principal
+
 # %%imports & func
 import os
 import pandas as pd
