@@ -1,10 +1,12 @@
 # %%imports & func
 import os
 import re
+from warnings import simplefilter
 
 import numpy as np
 import pandas as pd
 import spacy
+from sklearn.exceptions import ConvergenceWarning
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, hamming_loss
@@ -26,6 +28,8 @@ def lemmatization(msg):
     return msg
 
 
+# %% Prep
+simplefilter("ignore", category=ConvergenceWarning)
 nlp = spacy.load("en_core_web_sm")
 # %%Importing parameters & loading dataset
 df_param = pd.read_csv(os.path.join("data", "params.csv"), delimiter=";")
