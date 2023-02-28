@@ -21,7 +21,7 @@ Além disso, há alguns arquivos de configuração na raiz do projeto, e um pdf 
 
 O código principal é o [main.py](code/main.py).
 
-Há um outro arquivo nessa pasta, [main_old.py](code/main_old.py), que não está atualizado (não está funcionando adequadamente) mas contém outras tentativas de técnicas usadas ao longo do projeto, portanto há grande valor. Além disso, é nele que está contido o código que gera as imagens/visualizações encontradas no TCC. Esse código deve ser incorporado ao principal, ou colocado em um novo dedicado para isso (TODO).
+Há um outro arquivo nessa pasta, [main_generate_plots.py](code/main_generate_plots.py), que não está atualizado (não está funcionando adequadamente) mas contém outras tentativas de técnicas usadas ao longo do projeto, portanto há grande valor. Além disso, é nele que está contido o código que gera as imagens/visualizações encontradas no TCC. Esse código deve ser incorporado ao principal, ou colocado em um novo dedicado para isso (TODO).
 
 ### Instruções para rodar o projeto
 
