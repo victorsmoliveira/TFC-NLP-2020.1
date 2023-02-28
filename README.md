@@ -11,8 +11,8 @@ Ano: 2020
 
 Neste projeto, há algumas pastas:
 
-- `code`: contém o código principal do projeto
-- `data`: contém os datasets
+- `code`: contém o código principal do projeto.
+- `data`: contém os datasets e o arquivo de parâmetros.
 - `example_results`: contém um exemplo de output.
 
 Além disso, há alguns arquivos de configuração na raiz do projeto, e um pdf contendo o TFC.
