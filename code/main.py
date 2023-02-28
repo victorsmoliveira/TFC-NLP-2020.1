@@ -50,8 +50,7 @@ labels_dataframe = dataset.iloc[:, 1:]
 print("Read successfully.")
 
 print("\n🔨 Lemmatizating messages...")
-# corpus = [lemmatization(msg) for msg in list(dataset["msgContent"])]
-corpus = list(dataset["msgContent"]) #for testing
+corpus = [lemmatization(msg) for msg in list(dataset["msgContent"])]
 print("Lemmatization complete.")
 
 # %% main
@@ -108,6 +107,12 @@ df_results = pd.DataFrame({"Accuracy": m_acc_array, "Hamming Loss": m_hamm_loss_
 
 df_complete = pd.concat([srs_indexes + 1, df_param, df_results], axis=1)
 
-output_excel_filename = "resultados.xlsx"
-df_complete.to_excel(output_excel_filename, index=False, freeze_panes=(1, 0))
-print(f"\n📝 Results successfully exported to {output_excel_filename}.")
+output_filename = "results"
+
+# Export to csv
+df_complete.to_csv(output_filename + ".csv", index=False)
+print(f"\n📝 Results successfully exported to {output_filename}.csv.")
+
+# Export to excel
+df_complete.to_excel(output_filename + ".xlsx", index=False, freeze_panes=(1, 0))
+print(f"\n📝 Results successfully exported to {output_filename}.xlsx.")

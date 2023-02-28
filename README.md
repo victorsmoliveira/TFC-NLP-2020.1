@@ -9,7 +9,13 @@ Ano: 2020
 
 ### Arquivos
 
-Neste projeto, há uma pasta com os códigos, `code` e uma outra com os datasets, `data`.
+Neste projeto, há algumas pastas:
+
+- `code`: contém o código principal do projeto
+- `data`: contém os datasets
+- `example_results`: contém um exemplo de output.
+
+Além disso, há alguns arquivos de configuração na raiz do projeto, e um pdf contendo o TFC.
 
 ### Código
 
@@ -19,7 +25,7 @@ Há um outro arquivo nessa pasta, [main_old.py](code/main_old.py), que não est�
 
 ### Instruções para rodar o projeto
 
-Instalar a ferramenta [poetry](https://python-poetry.org/docs/#installation).
+Instale a ferramenta [poetry](https://python-poetry.org/docs/#installation).
 
 Com a linha de comando, entre na pasta do projeto e rode:
 
@@ -29,14 +35,26 @@ Com a linha de comando, entre na pasta do projeto e rode:
 
 Isso vai criar um virtual env e fazer o download de todas as dependências do projeto para ele.
 
+Ative o virtual env criado pelo Poetry:
+
+```powershell
+> poetry shell
+```
+
 Depois disso, é necessário fazer o download de um "dicionário" da biblioteca Spacy. Rode:
 
 ```powershell
 > python -m spacy download en
 ```
 
-Tenha certeza de que seu virtual env criado pelo Poetry está ativado e rode o código principal:
+E depois rode o código principal:
 
 ```powershell
 > py code/main.py
 ```
+
+### Output
+
+O output do código são dois arquivos, um CSV com o nome de `results.csv` e um Excel com o nome de `results.xlsx`, que vão ser salvos na raiz do projeto.
+
+Um exemplo de output pode ser encontrado na pasta `example_results`.
